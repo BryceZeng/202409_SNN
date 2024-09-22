@@ -89,10 +89,8 @@ class SNN(BaseEstimator, ClusterMixin):
         )
         self.core_sample_indices_, self.labels_ = clusters
         if len(self.core_sample_indices_):
-            # fix for scipy sparse indexing issue
             self.components_ = X[self.core_sample_indices_].copy()
         else:
-            # no core samples
             self.components_ = np.empty((0, X.shape[1]))
         return self
 
@@ -126,8 +124,11 @@ if __name__ == "__main__":
     df.columns
 
     # apply the SNN to df[['Screen', 'Price_euros', 'Weight']]
-    snn = SNN(neighbor_num=5, min_shared_neighbor_proportion=0.5)
-    scores = snn.fit(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]])
+    algo = SNN(neighbor_num=5, min_shared_neighbor_proportion=0.5)
+    try:
+        scores = algo.fit_predict(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]].values)
+    except Exception as e:
+        print(f"Error in fit_predict: {e}")
 
     # add the scores to the dataframe
     df["snn_score"] = scores
