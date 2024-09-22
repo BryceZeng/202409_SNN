@@ -122,18 +122,12 @@ class SNN(BaseEstimator, ClusterMixin):
         return self.labels_
 
 if __name__ == "__main__":
-    snn = SNN()
-    data = np.array([[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]])
-    scores = snn.fit_predict(data, 2)
-    print(scores)
-
-    ## Alternately, you can run the code below to test the SNN on the laptop_prices dataset
     df = pd.read_csv("laptop_prices.csv")
     df.columns
 
     # apply the SNN to df[['Screen', 'Price_euros', 'Weight']]
     snn = SNN(neighbor_num=5, min_shared_neighbor_proportion=0.5)
-    scores = snn.fit_predict(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]])
+    scores = snn.fit(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]]).labels
 
     # add the scores to the dataframe
     df["snn_score"] = scores
