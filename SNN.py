@@ -29,20 +29,28 @@ class SNN:
         scores = [min_score + (max_score - x) for x in scores]
         return scores
 
-df = pd.read_csv('laptop_prices.csv')
-df.columns
+if __name__ == "__main__":
+    snn = SNN()
+    data = np.array([[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]])
+    scores = snn.fit_predict(data, 2)
+    print(scores)
 
-# apply the SNN to df[['Screen', 'Price_euros', 'Weight']]
-snn = SNN()
-scores = snn.fit_predict(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]], 5)
+    ## Alternately, you can run the code below to test the SNN on the laptop_prices dataset
+    df = pd.read_csv("laptop_prices.csv")
+    df.columns
 
-# add the scores to the dataframe
-df["snn_score"] = scores
+    # apply the SNN to df[['Screen', 'Price_euros', 'Weight']]
+    snn = SNN()
+    scores = snn.fit_predict(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]], 5)
 
-# plot the scores as color against Price_euros and Weight
-import matplotlib.pyplot as plt
-plt.scatter(df["Price_euros"], df["Weight"], c=df["snn_score"], cmap='viridis')
-plt.xlabel("Price_euros")
-plt.ylabel("Weight")
-plt.colorbar()
-plt.show()
+    # add the scores to the dataframe
+    df["snn_score"] = scores
+
+    # plot the scores as color against Price_euros and Weight
+    import matplotlib.pyplot as plt
+
+    plt.scatter(df["Price_euros"], df["Weight"], c=df["snn_score"], cmap="viridis")
+    plt.xlabel("Price_euros")
+    plt.ylabel("Weight")
+    plt.colorbar()
+    plt.show()
