@@ -127,7 +127,7 @@ if __name__ == "__main__":
 
     # apply the SNN to df[['Screen', 'Price_euros', 'Weight']]
     snn = SNN(neighbor_num=5, min_shared_neighbor_proportion=0.5)
-    scores = snn.fit(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]]).labels
+    scores = snn.fit(df[["ScreenW", "ScreenH", "Price_euros", "Weight"]])
 
     # add the scores to the dataframe
     df["snn_score"] = scores
